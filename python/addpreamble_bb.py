@@ -22,13 +22,13 @@
 import numpy
 from gnuradio import gr
 
-class addpreamble_bb(gr.basic_block):
+class addpreamble_bb(gr.basic_block):	
     """
     docstring for block addpreamble_bb
     """
     def __init__(self, packet_len, preamble_len):
         gr.basic_block.__init__(self,
-            name="addpreamble_bb",
+            name="Add Preamble",
             in_sig=[numpy.int8],
             out_sig=[numpy.int8])
 

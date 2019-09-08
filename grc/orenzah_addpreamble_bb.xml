@@ -4,7 +4,7 @@
   <key>orenzah_addpreamble_bb</key>
   <category>[orenzah]</category>
   <import>import orenzah</import>
-  <make>orenzah.addpreamble_bb($[preamble_length])</make>
+  <make>orenzah.addpreamble_bb($packet_len, $preamble_len)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
