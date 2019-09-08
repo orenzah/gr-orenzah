@@ -41,7 +41,7 @@ class addpreamble_bb(gr.basic_block):
 
     def general_work(self, input_items, output_items):		
 		for i in range(self.preamble_len):
-			output_items[0][i] = numpy.mod(i + 3, 4);															
+			output_items[0][i] = 3;
 														
 		for i in range(self.preamble_len, self.packet_len):
 			output_items[0][i] = input_items[0][i];
