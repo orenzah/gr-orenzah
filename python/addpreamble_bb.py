@@ -38,12 +38,9 @@ class addpreamble_bb(gr.basic_block):
             ninput_items_required[i] = noutput_items
 
     def general_work(self, input_items, output_items):
-        print("input",len(input_items[0]))
-        print("output",len(output_items[0]))
-        output_items[0][:] = input_items[0]
-        print("output",len(output_items[0]))
-        for i in range(len(input_items[0])):
-			output_items[0][i] = output_items[0][i] + 1;
-        self.consume(0, len(input_items[0]))
+
+        for i in range(len(output_items[0])):
+			output_items[0][i] = input_items[0][i] + 1;
+        self.consume(0, len(output_items[0]))
         #self.consume_each(len(input_items[0]))
         return len(output_items[0])
