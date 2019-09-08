@@ -22,15 +22,16 @@
 import numpy
 from gnuradio import gr
 
-class addpreamble_bb(gr.basic_block):	
+class addpreamble_bb(gr.basic_block):
+	"Add Preamble"	
     """
     This block will add a preamble to your fixed size byte stream
     """
     def __init__(self, packet_len, preamble_len):
         gr.basic_block.__init__(self,
             name="Add Preamble",
-            in_sig=[<+numpy.int8+>],
-            out_sig=[<+numpy.int8+>])
+            in_sig=[numpy.int8],
+            out_sig=[numpy.int8])
 
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
