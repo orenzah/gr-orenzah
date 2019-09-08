@@ -41,6 +41,6 @@ class addpreamble_bb(gr.basic_block):
         output_items[0][:] = input_items[0]
         for i in range(len(output_items[0])):
 			output_items[0][i] = output_items[0][i] + 1;
-        self.consume(0, len(input_items[0]))
+        self.consume(0, len(output_items[0]))
         #self.consume_each(len(input_items[0]))
         return len(output_items[0])
