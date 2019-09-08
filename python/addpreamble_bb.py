@@ -29,8 +29,8 @@ class addpreamble_bb(gr.basic_block):
     def __init__(self, packet_len, preamble_len):
         gr.basic_block.__init__(self,
             name="addpreamble_bb",
-            in_sig=[<+numpy.float32+>],
-            out_sig=[<+numpy.float32+>])
+            in_sig=[numpy.int8],
+            out_sig=[numpy.int8])
 
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
