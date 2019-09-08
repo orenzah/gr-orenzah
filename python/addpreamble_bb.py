@@ -24,7 +24,7 @@ from gnuradio import gr
 
 class addpreamble_bb(gr.basic_block):	
     """
-    docstring for block addpreamble_bb
+    This block will add a preamble to you fixed size byte stream
     """
     def __init__(self, packet_len, preamble_len):
         gr.basic_block.__init__(self,
