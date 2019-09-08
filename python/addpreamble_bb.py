@@ -43,8 +43,8 @@ class addpreamble_bb(gr.basic_block):
 		for i in range(self.preamble_len):
 			output_items[0][i] = numpy.mod(i + 3, 4);															
 														
-        for i in range(self.preamble_len, self.packet_len):
+		for i in range(self.preamble_len, self.packet_len):
 			output_items[0][i] = input_items[0][i];
-        self.consume(0, self.packet_len)
+		self.consume(0, self.packet_len)
         #self.consume_each(len(input_items[0]))
-        return self.packet_len + self.preamble_len;
+		return self.packet_len + self.preamble_len;
