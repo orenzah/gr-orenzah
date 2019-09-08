@@ -28,6 +28,7 @@ class addpreamble_bb(gr.basic_block):
     """
     def __init__(self, packet_len, preamble_len):
         self.packet_len = packet_len;
+        self.preamble_len = preamble_len;
         gr.basic_block.__init__(self,
             name="addpreamble_bb",
             in_sig=[numpy.int8],
@@ -38,10 +39,12 @@ class addpreamble_bb(gr.basic_block):
         for i in range(len(ninput_items_required)):
             ninput_items_required[i] = self.packet_len;
 
-    def general_work(self, input_items, output_items):
-
-        for i in range(len(output_items[0])):
-			output_items[0][i] = input_items[0][i] + 1;
-        self.consume(0, len(output_items[0]))
+    def general_work(self, input_items, output_items):		
+		for i in range(self.preamble_len):
+			output_items[0][i] = numpy.mod(i + 3, 4);															
+														
+        for i in range(self.preamble_len, self.packet_len):
+			output_items[0][i] = input_items[0][i];
+        self.consume(0, self.packet_len)
         #self.consume_each(len(input_items[0]))
-        return len(output_items[0])
+        return self.packet_len + self.preamble_len;
