@@ -23,7 +23,7 @@ import numpy
 from gnuradio import gr
 
 class addpreamble_bb(gr.basic_block):
-	"Add Preamble"	
+    "Add Preamble"	
     """
     This block will add a preamble to your fixed size byte stream
     """
