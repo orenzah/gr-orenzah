@@ -26,7 +26,7 @@ class addpreamble_bb(gr.basic_block):
     """
     docstring for block addpreamble_bb
     """
-    def __init__(self, [preamble_length]):
+    def __init__(self, packet_len, preamble_len):
         gr.basic_block.__init__(self,
             name="addpreamble_bb",
             in_sig=[<+numpy.float32+>],
@@ -39,6 +39,8 @@ class addpreamble_bb(gr.basic_block):
 
     def general_work(self, input_items, output_items):
         output_items[0][:] = input_items[0]
+        for i in range(len(output_items[0])):
+			output_items[0][i] = output_items[0][i] + 1;
         consume(0, len(input_items[0]))
         #self.consume_each(len(input_items[0]))
         return len(output_items[0])
