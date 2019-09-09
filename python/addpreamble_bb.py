@@ -35,8 +35,7 @@ class addpreamble_bb(gr.basic_block):
             in_sig=[numpy.int8],
             out_sig=[numpy.int8])
 
-    def forecast(self, noutput_items, ninput_items_required):
-		print("noutput_items", noutput_items);    
+    def forecast(self, noutput_items, ninput_items_required):		
 		if (self.remainder > 0):
 			ninput_items_required[0]	= self.remainder;
 			noutput_items 				= self.remainder;					
@@ -44,9 +43,7 @@ class addpreamble_bb(gr.basic_block):
 			ninput_items_required[0] = self.packet_len;
 			noutput_items = self.packet_len + self.preamble_len;
 
-    def general_work(self, input_items, output_items):
-		print("input_items",len(input_items[0]))		
-		print("output_items",len(output_items[0]))				
+    def general_work(self, input_items, output_items):					
 		for i in range(self.preamble_len):
 			output_items[0][i] = 3;
 		if (self.remainder > 0):
