@@ -39,23 +39,22 @@ class addpreamble_bb(gr.basic_block):
 		print("noutput_items", noutput_items);    
 		if (self.remainder > 0):
 			ninput_items_required[0]	= self.remainder;
-			noutput_items 				= self.remainder;
-			self.remainder				= 0;			
-			
+			noutput_items 				= self.remainder;					
 		else:
 			ninput_items_required[0] = self.packet_len;
 			noutput_items = self.packet_len + self.preamble_len;
 
     def general_work(self, input_items, output_items):
 		print("input_items",len(input_items[0]))		
-		print("output_items",len(output_items[0]))		
-		
+		print("output_items",len(output_items[0]))				
 		for i in range(self.preamble_len):
 			output_items[0][i] = 3;
-													
-		for i in range(self.packet_len):
-			output_items[0][i + self.preamble_len] = input_items[0][i];
-			
+		if (self.remainder > 0):
+			for i in range(self.packet_len):
+				output_items[0][i] = input_items[0][i];				
+		else:
+			for i in range(self.packet_len):
+				output_items[0][i + self.preamble_len] = input_items[0][i];			
 		self.consume(0, self.packet_len)
 		#self.consume_each(len(input_items[0]))
 		if (len(input_items[0]) - self.packet_len < self.packet_len):
