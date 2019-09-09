@@ -35,7 +35,8 @@ class addpreamble_bb(gr.basic_block):
             in_sig=[numpy.int8],
             out_sig=[numpy.int8])
 
-    def forecast(self, noutput_items, ninput_items_required):    
+    def forecast(self, noutput_items, ninput_items_required):
+		print("noutput_items", noutput_items);    
 		if (self.remainder > 0):
 			ninput_items_required[0]	= self.remainder;
 			noutput_items 				= self.remainder;
