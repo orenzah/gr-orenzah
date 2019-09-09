@@ -54,7 +54,7 @@ class addpreamble_bb(gr.basic_block):
 			return ret_rem;
 		else:
 			for i in range(self.preamble_len):
-				output_items[0][i] = 3;
+				output_items[0][i] = 3 + i % 4;;
 			for i in range(self.packet_len):
 				output_items[0][i + self.preamble_len] = input_items[0][i];			
 			self.consume(0, self.packet_len)
