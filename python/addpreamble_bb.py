@@ -50,7 +50,7 @@ class addpreamble_bb(gr.basic_block):
 		for i in range(self.preamble_len):
 			output_items[0][i] = 3;
 		if (self.remainder > 0):
-			for i in range(self.packet_len):
+			for i in range(self.remainder):
 				output_items[0][i] = input_items[0][i];				
 		else:
 			for i in range(self.packet_len):
