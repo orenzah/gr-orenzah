@@ -56,11 +56,11 @@ class addpreamble_bb(gr.basic_block):
 		else:
 			for i in range(self.packet_len):
 				output_items[0][i + self.preamble_len] = input_items[0][i];			
-		self.consume(0, self.packet_len)
-		#self.consume_each(len(input_items[0]))
-		if (len(input_items[0]) - self.packet_len < self.packet_len):
-			self.remainder = len(input_items[0]) - self.packet_len;
-		return self.packet_len + self.preamble_len;
+			self.consume(0, self.packet_len)
+			#self.consume_each(len(input_items[0]))
+			if (len(input_items[0]) - self.packet_len < self.packet_len):
+				self.remainder = len(input_items[0]) - self.packet_len;
+			return self.packet_len + self.preamble_len;
 		
 			
 			
