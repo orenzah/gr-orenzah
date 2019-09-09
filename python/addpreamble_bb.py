@@ -51,6 +51,7 @@ class addpreamble_bb(gr.basic_block):
 				output_items[0][i] = input_items[0][i];				
 			self.consume(0, self.remainder)
 			self.remainder = 0;	
+			return self.remainder;
 		else:
 			for i in range(self.packet_len):
 				output_items[0][i + self.preamble_len] = input_items[0][i];			
