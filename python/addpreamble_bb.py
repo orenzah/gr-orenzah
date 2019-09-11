@@ -30,6 +30,7 @@ class addpreamble_bb(gr.basic_block):
         self.packet_len = packet_len;
         self.preamble_len = preamble_len;        
         self.remainder = 0;
+        self.preamble_rem = 0;
         gr.basic_block.__init__(self,
             name="addpreamble_bb",
             in_sig=[numpy.int8],
@@ -44,11 +45,13 @@ class addpreamble_bb(gr.basic_block):
 			noutput_items = self.packet_len + self.preamble_len;
 
     def general_work(self, input_items, output_items):					
+		noutput = len(output_items[0])
+		ninput = len(input_items[0])
 		print("self.remainder" , self.remainder);
-		print("input_items[0]" , len(input_items[0]));
-		print("output_items[0]" , len(output_items[0]));
+		print("input_items[0]" , ninput);
+		print("output_items[0]" , noutput);
+		
 		if (self.remainder > 0):
-			
 			for i in range(self.remainder):				
 				output_items[0][i] = input_items[0][i];
 								
@@ -57,10 +60,18 @@ class addpreamble_bb(gr.basic_block):
 			self.remainder = 0;	
 			return ret_rem;
 		else:
-			for i in range(self.preamble_len):
-				output_items[0][i] = 3 - numpy.mod(i,4);
+			if (self.preamble_rem > 0):
+				for i in range(self.preamble_rem, self.preamble_len):	
+					output_items[0][i] = 3 - numpy.mod(i,4);
+				self.preamble_rem = 0;				
+			else:
+				for i in range(self.preamble_len):				
+					if (i >= noutput):
+						self.preamble_rem = self.preamble_len - i;
+						return i;
+					output_items[0][i] = 3 - numpy.mod(i,4);
 			for i in range(self.packet_len):
-				if (i + self.preamble_len >= len(output_items[0])):
+				if (i + self.preamble_len >= noutput):
 					rem = self.packet_len - i;
 					self.remainder = rem;
 					self.consume(0, i)
