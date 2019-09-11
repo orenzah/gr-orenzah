@@ -26,7 +26,7 @@ class addpreamble_bb(gr.basic_block):
     """
     This block will add a preamble to your fixed size byte stream
     """
-    def __init__(self, packet_len, preamble_len):
+    def __init__(self, packet_len, preamble_len, ):
         self.packet_len = packet_len;
         self.preamble_len = preamble_len;        
         self.remainder = 0;
@@ -56,7 +56,12 @@ class addpreamble_bb(gr.basic_block):
 			for i in range(self.preamble_len):
 				output_items[0][i] = 3 - numpy.mod(i,4);
 			for i in range(self.packet_len):
+				if (i + self.preamble_len >= len(output_items[0])):
+					rem = self.packet_len - i;
+					self.remainder = rem;
+					return i;
 				output_items[0][i + self.preamble_len] = input_items[0][i];			
+				
 			self.consume(0, self.packet_len)
 			#self.consume_each(len(input_items[0]))
 			if (len(input_items[0]) - self.packet_len < self.packet_len):
