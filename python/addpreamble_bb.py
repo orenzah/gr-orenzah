@@ -63,7 +63,7 @@ class addpreamble_bb(gr.basic_block):
 				if (i + self.preamble_len >= len(output_items[0])):
 					rem = self.packet_len - i;
 					self.remainder = rem;
-					self.consume(0, self. i)
+					self.consume(0, i)
 					return self.preamble_len + i;
 				output_items[0][i + self.preamble_len] = input_items[0][i];			
 				
