@@ -49,8 +49,7 @@ class addpreamble_bb(gr.basic_block):
 			print("self.remainder" , self.remainder);
 			print("input_items[0]" , len(input_items[0]));
 			print("output_items[0]" , len(output_items[0]));
-			for i in range(self.remainder):
-				
+			for i in range(self.remainder):				
 				output_items[0][i] = input_items[0][i];
 								
 			self.consume(0, self.remainder)
@@ -64,14 +63,15 @@ class addpreamble_bb(gr.basic_block):
 				if (i + self.preamble_len >= len(output_items[0])):
 					rem = self.packet_len - i;
 					self.remainder = rem;
-					return i + 1;
+					self.consume(0, self. i)
+					return self.preamble_len + i;
 				output_items[0][i + self.preamble_len] = input_items[0][i];			
 				
 			self.consume(0, self.packet_len)
 			#self.consume_each(len(input_items[0]))
 			if (len(input_items[0]) - self.packet_len < self.packet_len):
 				self.remainder = len(input_items[0]) - self.packet_len;
-			return self.packet_len + self.preamble_len;
+			return self.preamble_len + self.packet_len;
 		
 			
 			
