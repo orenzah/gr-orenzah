@@ -46,8 +46,13 @@ class addpreamble_bb(gr.basic_block):
     def general_work(self, input_items, output_items):					
 		
 		if (self.remainder > 0):
+			print("self.remainder" , self.remainder);
+			print("input_items[0]" , len(input_items[0]));
+			print("output_items[0]" , len(output_items[0]));
 			for i in range(self.remainder):
-				output_items[0][i] = input_items[0][i];				
+				
+				output_items[0][i] = input_items[0][i];
+								
 			self.consume(0, self.remainder)
 			ret_rem = self.remainder;	
 			self.remainder = 0;	
