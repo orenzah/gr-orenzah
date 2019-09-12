@@ -33,7 +33,7 @@ class preamblecorr_bb(gr.basic_block):
         self.preamble_len = preamble_len;
         self.access_code = access_code; 
         if (len(access_code) !=  preamble_len):
-            throw "Access code and Preamble Length doesn't match"      
+            assert("Access code and Preamble Length doesn't match")
         gr.basic_block.__init__(self,
             name="preamblecorr_bb",
             in_sig=[numpy.int8],
