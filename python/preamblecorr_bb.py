@@ -87,11 +87,11 @@ class preamblecorr_bb(gr.basic_block):
         for i in range(self.preamble_len):
             self.access_code_crumbs.append(
             (self.access_code[i] << 6) & (0xFF << 6));            
-            self.access_code_crumbs[i + 1] = (
+            self.access_code_crumbs.append(
             (self.access_code[i] << 4) & (0xFF << 4));
-            self.access_code_crumbs[i + 2] = (
+            self.access_code_crumbs.append(
             (self.access_code[i] << 2) & (0xFF << 2));
-            self.access_code_crumbs[i + 3] = (
+            self.access_code_crumbs.append(
             (self.access_code[i] << 0) & (0xFF << 0));
         return;
     def pack_four_bytes(self, input_items):       
