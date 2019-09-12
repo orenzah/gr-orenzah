@@ -57,6 +57,7 @@ class preamblecorr_bb(gr.basic_block):
         if (len(self.crumbs_window) < self.preamble_len * 4):
             self.crumbs_window.append(input_items[0][0]);
             self.consume_each(1);
+            return 0;
         else:                            
             pop_cnt = self.sliding_window();
             if pop_cnt > 0:
@@ -64,6 +65,7 @@ class preamblecorr_bb(gr.basic_block):
                 while pop_cnt > 0:
                     self.crumbs_window.pop(0);
                     pop_cnt -= 1;
+                return 0;
             else:
                 #there is a match
                 #consume packet_len items
