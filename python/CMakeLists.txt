@@ -32,7 +32,8 @@ endif()
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
-    addpreamble_bb.py DESTINATION ${GR_PYTHON_DIR}/orenzah
+    addpreamble_bb.py
+    preamblecorr_bb.py DESTINATION ${GR_PYTHON_DIR}/orenzah
 )
 
 ########################################################################

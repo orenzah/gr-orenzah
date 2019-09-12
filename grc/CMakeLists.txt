@@ -18,5 +18,6 @@
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
 install(FILES
-    orenzah_addpreamble_bb.xml DESTINATION share/gnuradio/grc/blocks
+    orenzah_addpreamble_bb.xml
+    orenzah_preamblecorr_bb.xml DESTINATION share/gnuradio/grc/blocks
 )
