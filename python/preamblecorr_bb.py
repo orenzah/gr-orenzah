@@ -71,6 +71,7 @@ class preamblecorr_bb(gr.basic_block):
                 #consume packet_len items
                 #output packet_len items                
                 output_items[0][0] = pack_four_bytes(input_items);
+                print("we has match");
                 return 1;                
         #consume(0, len(input_items[0]))
         
