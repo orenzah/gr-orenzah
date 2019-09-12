@@ -85,7 +85,7 @@ class preamblecorr_bb(gr.basic_block):
         return cnt;        
     def unpack_accesscode(self):
         for i in range(self.preamble_len):
-            self.access_code_crumbs[i] = (
+            self.access_code_crumbs.append(
             (self.access_code[i] << 6) & (0xFF << 6));            
             self.access_code_crumbs[i + 1] = (
             (self.access_code[i] << 4) & (0xFF << 4));
