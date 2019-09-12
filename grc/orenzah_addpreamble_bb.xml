@@ -20,7 +20,11 @@
     <key>preamble_len</key>
     <type>int</type>
   </param>   
-
+  <param>
+    <name>Access Code</name>
+    <key>access_code</key>
+    <type>int_vector</type>
+  </param>   
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
