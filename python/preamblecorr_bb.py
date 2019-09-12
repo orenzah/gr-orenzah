@@ -55,7 +55,7 @@ class preamblecorr_bb(gr.basic_block):
         noutput = len(output_items[0])
         ninput = len(input_items[0])
         if (len(self.crumbs_window) < self.preamble_len * 4):
-            self.crumbs_window[0] = input_items[0][0];
+            self.crumbs_window.append(input_items[0][0]);
             self.consume_each(1);
         else:                            
             pop_cnt = self.sliding_window();
