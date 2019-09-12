@@ -70,7 +70,7 @@ class addpreamble_bb(gr.basic_block):
 						self.preamble_rem = self.preamble_len - i;
 						return i;
 					#output_items[0][i] = 3 - numpy.mod(i,4);
-					output_items[0][i] = 210;
+					output_items[0][i] = 120;
 			for i in range(self.packet_len):
 				if (i + self.preamble_len >= noutput):
 					rem = self.packet_len - i;
