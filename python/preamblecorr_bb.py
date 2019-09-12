@@ -47,7 +47,7 @@ class preamblecorr_bb(gr.basic_block):
     def general_work(self, input_items, output_items):
         # consume one byte each iteration
         noutput = len(output_items[0])
-		ninput = len(input_items[0])
+        ninput = len(input_items[0])
         
         output_items[0][:] = input_items[0]
         consume(0, len(input_items[0]))
