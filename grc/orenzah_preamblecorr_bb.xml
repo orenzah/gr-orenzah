@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<block>
+  <name>Preamble Correlator</name>
+  <key>orenzah_preamblecorr_bb</key>
+  <category>[orenzah]</category>
+  <import>import orenzah</import>
+  <make>orenzah.preamblecorr_bb($packet_len, $preamble_len, $access_code)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>Packet Length</name>
+    <key>packet_len</key>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Preamble Length</name>
+    <key>preamble_len</key>
+    <type>int</type>
+  </param>   
+  <param>
+    <name>Access Code</name>
+    <key>access_code</key>
+    <type>int_vector</type>
+  </param>   
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>in</name>
+    <type>byte</type>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>out</name>
+    <type>byte</type>
+  </source>
+</block>
