@@ -103,7 +103,7 @@ class addpreamble_bb(gr.basic_block):
 			for j in range(self.preamble_len):
 				packet[j] = self.access_code[j];
 			for j in range(self.packet_len):
-				packet[j + self.preamble_len] = input_items[j];
+				packet[j + self.preamble_len] = input_items[0][j];
 			self.consume_each(ninput);
 			for j in range(len(packet)):
 				output_items[0][j] = packet[j];
