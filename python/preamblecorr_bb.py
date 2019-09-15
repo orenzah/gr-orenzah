@@ -40,6 +40,7 @@ class preamblecorr_bb(gr.basic_block):
         self.crumbs_window = [];
         self.curr_window = [];        
         self.produced = 0;
+        self.out_buffer = []
         if (len(access_code) !=  preamble_len):
             assert("Access code and Preamble Length doesn't match")
         gr.basic_block.__init__(self,
@@ -62,7 +63,18 @@ class preamblecorr_bb(gr.basic_block):
         # notice, we consider four bytes as one
         
         noutput = len(output_items[0])
-        ninput = len(input_items[0])        
+        ninput = len(input_items[0])
+        nbuffer = len(self.out_buffer);
+        if (nbuffer > 0):
+            if nbuffer > noutput:
+                for i in range(noutput):
+                    noutput[0][i] = self.out_buffer.pop(0);
+                return noutput;
+            else:
+                for i in range(nbuffer):
+                    noutput[0][i] = self.out_buffer.pop(0);                
+                return nbuffer;
+                       
         if (not self.synchronized):
             if (len(self.crumbs_window) < self.preamble_len * 4):            
                 self.crumbs_window.append(input_items[0][0]);
@@ -86,25 +98,31 @@ class preamblecorr_bb(gr.basic_block):
                         self.crumbs_window.pop(0);                    
                         #output_items[0][0] = 2;
                     return 0;
-        else:
-            if (self.produced < self.packet_len):                
-                input_arr = input_items[0]
-                if (ninput < 4):
-                    return 0;
+        else:                            
+            ncrubms_in = (ninput/4)*4;
+            input_arr = input_items[0][::ncrubms_in];            
+            out_bytes = [];
+            while (self.produced < self.packet_len):                                                                            
                 output_byte = self.pack_four_bytes(input_arr);
-                self.consume_each(4);
-                output_items[0][0] = output_byte;
-                self.produced += 1;
-                return 1;
+                for i in range(4):
+                    input_arr.pop(0);                                
+                self.out_buffer.append(output_byte);
+                self.produced += 1;       
+                if (len(input_arr) == 0):
+                    break;            
+            self.consume_each(ncrubms_in);
+            return 0;            
+                
             else:
                 self.produced = 0;
                 self.synchronized = False;
                 print("Done", self.success_sync);
                 self.success_sync += 1;
-                return 0;
-        #consume(0, len(input_items[0]))
+                return 0;        
+                
         
-        return len(output_items[0])
+        
+                
     def sliding_window(self):
         #return the number of the unmatch indexex
         #e.g. if access_code is [1,2,3,4] and curr_window [1,2,3,4]
