@@ -52,6 +52,7 @@ class addpreamble_bb(gr.basic_block):
 			nout = self.packet_len;
 		else:
 			nout = noutput_items / self.packet_len;
+			nout *= self.packet_len; 
 		ninput_items_required[0] = nout;
 
     def general_work2(self, input_items, output_items):					
