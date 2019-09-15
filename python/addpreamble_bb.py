@@ -37,15 +37,18 @@ class addpreamble_bb(gr.basic_block):
             in_sig=[numpy.int8],
             out_sig=[numpy.int8])
 
-    def forecast(self, noutput_items, ninput_items_required):		
+    def forecast2(self, noutput_items, ninput_items_required):		
 		if (self.remainder > 0):
 			ninput_items_required[0]	= self.remainder;
 			noutput_items 				= self.remainder;					
 		else:
 			ninput_items_required[0] = self.packet_len;
 			noutput_items = self.packet_len + self.preamble_len;
+			
+    def forecast(self, noutput_items, ninput_items_required):		
+		ninput_items_required[0] = noutput_items;
 
-    def general_work(self, input_items, output_items):					
+    def general_work2(self, input_items, output_items):					
 		noutput = len(output_items[0])
 		ninput = len(input_items[0])				
 		if (self.remainder > 0):			
@@ -89,6 +92,24 @@ class addpreamble_bb(gr.basic_block):
 			if (len(input_items[0]) - self.packet_len < self.packet_len):
 				self.remainder = len(input_items[0]) - self.packet_len;
 			return self.preamble_len + self.packet_len;
+
+    def general_work(self, input_items, output_items):					
+		noutput = len(output_items[0])
+		ninput = len(input_items[0])				
+		packet = np.zeros(self.packet_len + self.preamble);
+		npackets = ninput / (self.packet_len + self.preamble_len);		
+		for i in range(npackets):			
+			for j in range(self.preamble_len):
+				packet[j] = self.access_code[j];
+			for j in range(self.packet_len):
+				packet[j + self.preamble_len] = input_items[j];
+			self.consume_each(ninput);
+			for j in range(len(packet)):
+				output_items[0][j] = packet[j];
+		return npakcets *( self.packet_len + self.preamble);
+		
+							
+			
 		
 			
 			
