@@ -72,15 +72,11 @@ class preamblecorr_bb(gr.basic_block):
             else:
                 # we have collected 16*4 crumbs items
                 # compare the access_code to the crumbs window                
-                cnt = self.sliding_window();
-                if( cnt == 0):
-                    print(self.crumbs_window)
-                
+                cnt = self.sliding_window();                                
                 if cnt == 0:
                     # that is we have a match, we are sync
                     # output now preamble_len bytes
-                    # using preamble_len*4 crumbs input
-                    print("sync");
+                    # using preamble_len*4 crumbs input                    
                     self.synchronized = True;
                     self.crumbs_window = [];        
                     #output_items[0][0] = 2;                    
