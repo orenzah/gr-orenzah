@@ -72,6 +72,7 @@ class preamblecorr_bb(gr.basic_block):
             else:
                 # we have collected 16*4 crumbs items
                 # compare the access_code to the crumbs window
+                print(self.crumbs_window);
                 cnt = self.sliding_window();
                 for i in range(cnt):
                     self.crumbs_window.pop(0);
