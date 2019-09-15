@@ -48,7 +48,11 @@ class addpreamble_bb(gr.basic_block):
 			noutput_items = self.packet_len + self.preamble_len;
 			
     def forecast(self, noutput_items, ninput_items_required):		
-		ninput_items_required[0] = noutput_items;
+		if (noutput_items < self.packet_len):
+			nout = self.packet_len;
+		else:
+			nout = noutput_items / self.packet_len;
+		ninput_items_required[0] = nout;
 
     def general_work2(self, input_items, output_items):					
 		noutput = len(output_items[0])
