@@ -110,7 +110,7 @@ class addpreamble_bb(gr.basic_block):
 			for j in range(self.packet_len):
 				packet[j + self.preamble_len] = input_items[0][j];
 			self.consume_each(ninput);
-			packets.append(packet);
+			self.packets.append(packet);
 			
 		
 		npacket_out = 0;
