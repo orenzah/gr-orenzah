@@ -33,7 +33,9 @@ class preamblecorr_bb(gr.basic_block):
         self.preamble_len = preamble_len;
         self.access_code = access_code;
         self.access_code_crumbs = [];
+        self.synchronized = False;
         self.unpack_accesscode();
+        print(self.access_code_crumbs);
         self.crumbs_window = [];
         self.curr_window = [];        
         self.produced = 0;
@@ -46,33 +48,54 @@ class preamblecorr_bb(gr.basic_block):
 
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
-        for i in range(len(ninput_items_required)):
-            ninput_items_required[i] = noutput_items
+        if (self.synchronized):
+            noutput_items = 1000;
+            ninput_items_required[0] = noutput_items*4;
+        else:    
+            noutput_items = 1;
+            ninput_items_required[0] = noutput_items;
 
     def general_work(self, input_items, output_items):
-        # consume one byte each iteration
+        # consume one byte/4 each iteration that is 1/4 items
+        # byte/4 is one crumb (2 bits)
         # notice, we consider four bytes as one
+        
         noutput = len(output_items[0])
         ninput = len(input_items[0])
-        if (len(self.crumbs_window) < self.preamble_len * 4):
-            self.crumbs_window.append(input_items[0][0]);
-            self.consume_each(1);
-            return 0;
-        else:                            
-            pop_cnt = self.sliding_window();
-            if pop_cnt > 0:
-                #there is not match remove it                
-                while pop_cnt > 0:
-                    self.crumbs_window.pop(0);
-                    pop_cnt -= 1;
+        if (not self.synchronized):
+            if (len(self.crumbs_window) < self.preamble_len * 4):            
+                self.crumbs_window.append(input_items[0][0]);
+                self.consume_each(1);
                 return 0;
             else:
-                #there is a match
-                #consume packet_len items
-                #output packet_len items                
-                output_items[0][0] = pack_four_bytes(input_items);
-                print("we has match");
-                return 1;                
+                # we have collected 16*4 crumbs items
+                # compare the access_code to the crumbs window
+                cnt = self.sliding_window();
+                for i in range(cnt):
+                    self.crumbs_window.pop(0);
+                if cnt == 0:
+                    # that is we have a match, we are sync
+                    # output now 1000 bytes using 1000*4 crumbs input
+                    self.synchronized = True;
+                    return 0;
+                else:
+                    return 0;
+        else:
+            if (self.produced < self.packet_len):                
+                input_arr = input_items[0]
+                if (ninput < 4):
+                    return 0;
+                output_byte = self.pack_four_bytes(input_arr);
+                self.consume_each(4);
+                output_items[0][0] = output_byte;
+                self.produced += 1;
+                return 1;
+            else:
+                self.produced = 0;
+                self.synchronized = False;
+                return 0;
+                
+                
         #consume(0, len(input_items[0]))
         
         return len(output_items[0])
