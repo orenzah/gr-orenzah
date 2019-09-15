@@ -104,19 +104,19 @@ class preamblecorr_bb(gr.basic_block):
                 return 0;            
             input_arr = list(input_items[0][0:ncrubms_in]);                                                    
             out_bytes = [];            
-                while (self.produced < self.packet_len):                                                                            
-                    output_byte = self.pack_four_bytes(input_arr);
-                    for i in range(4):
-                        input_arr.pop(0);                                
-                    output_items[0][self.produced] = output_byte;
-                    self.produced += 1;                           
-                self.consume_each(ncrubms_in);
-                prod = self.produced;
-                self.produced = 0;
-                self.synchronized = False;
-                print("Done", self.success_sync);
-                self.success_sync += 1;
-                return prod;            
+            while (self.produced < self.packet_len):                                                                            
+                output_byte = self.pack_four_bytes(input_arr);
+                for i in range(4):
+                    input_arr.pop(0);                                
+                output_items[0][self.produced] = output_byte;
+                self.produced += 1;                           
+            self.consume_each(ncrubms_in);
+            prod = self.produced;
+            self.produced = 0;
+            self.synchronized = False;
+            print("Done", self.success_sync);
+            self.success_sync += 1;
+            return prod;            
 
                 
         
