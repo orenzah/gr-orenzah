@@ -40,7 +40,7 @@ class preamblecorr_bb(gr.basic_block):
         self.crumbs_window = [];
         self.curr_window = [];        
         self.produced = 0;
-        self.produced_bytes = list(numpy.zeros(packet_len));;
+        self.produced_bytes = list(numpy.zeros(packet_len));
         if (len(access_code) !=  preamble_len):
             assert("Access code and Preamble Length doesn't match")
         gr.basic_block.__init__(self,
