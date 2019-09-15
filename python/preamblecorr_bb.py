@@ -50,10 +50,10 @@ class preamblecorr_bb(gr.basic_block):
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
         if (self.synchronized):
-            noutput_items = 1;
+            #noutput_items = 1;
             ninput_items_required[0] = 4;
         else:    
-            noutput_items = 1;
+            #noutput_items = 1;
             ninput_items_required[0] = noutput_items;
 
     def general_work(self, input_items, output_items):
