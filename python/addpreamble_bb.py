@@ -114,8 +114,11 @@ class addpreamble_bb(gr.basic_block):
 		
 		npacket_out = 0;
 		while 1:
-			if ((npacket_out + 1) * packet_size <= noutput):
+			if ((npacket_out + 1) * packet_size <= noutput):				
+				if (packets.length == 0):
+					break;
 				packet = packets.pop(0)
+				
 				print(packet)
 				for i in range(packet_size):
 					j = i + npacket_out * packet_size;
