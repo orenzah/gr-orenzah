@@ -68,11 +68,11 @@ class preamblecorr_bb(gr.basic_block):
         if (nbuffer > 0):
             if nbuffer > noutput:
                 for i in range(noutput):
-                    noutput[0][i] = self.out_buffer.pop(0);
+                    output_items[0][i] = self.out_buffer.pop(0);
                 return noutput;
             else:
                 for i in range(nbuffer):
-                    noutput[0][i] = self.out_buffer.pop(0);                
+                    output_items[0][i] = self.out_buffer.pop(0);                
                 return nbuffer;
                        
         if (not self.synchronized):
@@ -100,7 +100,7 @@ class preamblecorr_bb(gr.basic_block):
                     return 0;
         else:                            
             ncrubms_in = int(ninput/4)*4;
-            input_arr = list(input_items[0][0:ncrubms_in]);            
+            input_arr = input_items[0][0:ncrubms_in];            
             out_bytes = [];
             if (self.produced < self.packet_len):
                 while (self.produced < self.packet_len):                                                                            
