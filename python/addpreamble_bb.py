@@ -100,9 +100,9 @@ class addpreamble_bb(gr.basic_block):
 		packet_size = self.packet_len + self.preamble_len;			
 		packet = np.zeros(packet_size);
 		packets = []
-		npackets = ninput / (packet_size) - 1;		
-		if (npackets == 0):
-			return 0;
+		npackets = ninput / (self.packet_len) - 1;		
+		if (npackets <= 0):
+			return 0;		
 		for i in range(npackets):			
 			for j in range(self.preamble_len):
 				packet[j] = self.access_code[j];
@@ -110,6 +110,8 @@ class addpreamble_bb(gr.basic_block):
 				packet[j + self.preamble_len] = input_items[0][j];
 			self.consume_each(ninput);
 			packets.append(packet);
+			print(packet)
+		
 		npacket_out = 0;
 		while 1:
 			if ((npacket_out + 1) * packet_size <= noutput):
