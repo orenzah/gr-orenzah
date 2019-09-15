@@ -39,7 +39,7 @@ class addpreamble_bb(gr.basic_block):
             in_sig=[numpy.int8],
             out_sig=[numpy.int8])
 
-    def forecast(self, noutput_items, ninput_items_required):		
+    def forecast2(self, noutput_items, ninput_items_required):		
 		if (self.remainder > 0):
 			ninput_items_required[0]	= self.remainder;
 			noutput_items 				= self.remainder;					
@@ -47,15 +47,9 @@ class addpreamble_bb(gr.basic_block):
 			ninput_items_required[0] = self.packet_len;
 			noutput_items = self.packet_len + self.preamble_len;
 			
-    def forecast2(self, noutput_items, ninput_items_required):		
-		if (noutput_items < self.packet_len):
-			nout = self.packet_len;
-		else:
-			nout = noutput_items / self.packet_len;
-			nout *= self.packet_len; 
-		ninput_items_required[0] = nout;
 
-    def general_work(self, input_items, output_items):					
+
+    def general_work2(self, input_items, output_items):					
 		noutput = len(output_items[0])
 		ninput = len(input_items[0])				
 		if (self.remainder > 0):			
@@ -99,37 +93,27 @@ class addpreamble_bb(gr.basic_block):
 			if (len(input_items[0]) - self.packet_len < self.packet_len):
 				self.remainder = len(input_items[0]) - self.packet_len;
 			return self.preamble_len + self.packet_len;
-
-    def general_work2(self, input_items, output_items):					
+    def forecast(self, noutput_items, ninput_items_required):
+		noutput_items = self.packet_len + self.preamble_len;				
+		ninput_items_required[0] = self.packet_len;
+		
+    def general_work(self, input_items, output_items):					
 		noutput = len(output_items[0])
 		ninput = len(input_items[0])	
-		packet_size = self.packet_len + self.preamble_len;			
-		packet = np.zeros(packet_size);		
-		npackets = ninput / (self.packet_len);		
-		if (npackets <= 0):			
-			return 0;		
-		for i in range(npackets):			
-			for j in range(self.preamble_len):
-				packet[j] = self.access_code[j];
-			for j in range(self.packet_len):
-				packet[j + self.preamble_len] = input_items[0][j];			
-			self.packets.append(packet);
-		self.consume_each(npackets * self.packet_len);
-			
 		
-		npacket_out = 0;
-		while 1:
-			if ((npacket_out + 1) * packet_size <= noutput):				
-				if (len(self.packets) == 0):
-					break;
-				packet = self.packets.pop(0)						
-				for i in range(packet_size):
-					j = i + npacket_out * packet_size;
-					output_items[0][j] = packet[i];	
-				npacket_out += 1;							
-			else:
-				break;			
-		return (npacket_out) * (packet_size);
+		if (ninput < self.packet_len):
+			return 0;
+		if (noutput < self.packet_len + self.preamble_len):
+			return 0;
+		
+		for i in range(self.preamble_len):
+			output_items[0][i] = self.access_code[i];
+		for in range(self.packet_len):
+			output_items[0][i + self.preamble_len] = 
+												self.input_items[0][i];
+		return self.packet_len + self.preamble_len;
+			
+			
 		
 							
 			
