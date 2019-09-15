@@ -33,6 +33,7 @@ class addpreamble_bb(gr.basic_block):
         self.access_code = access_code;        
         self.remainder = 0;
         self.preamble_rem = 0;
+        self.packets = []
         gr.basic_block.__init__(self,
             name="addpreamble_bb",
             in_sig=[numpy.int8],
@@ -99,7 +100,7 @@ class addpreamble_bb(gr.basic_block):
 		ninput = len(input_items[0])	
 		packet_size = self.packet_len + self.preamble_len;			
 		packet = np.zeros(packet_size);
-		packets = []
+		
 		npackets = ninput / (self.packet_len) - 1;		
 		if (npackets <= 0):
 			return 0;		
