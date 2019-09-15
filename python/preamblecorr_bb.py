@@ -100,7 +100,7 @@ class preamblecorr_bb(gr.basic_block):
                     return 0;
         else:                            
             ncrubms_in = int(ninput/4)*4;
-            input_arr = input_items[0][::ncrubms_in];
+            input_arr = input_items[0][0:ncrubms_in];
             print (len(input_arr))         
             print (ncrubms_in)       
             out_bytes = [];
