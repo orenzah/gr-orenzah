@@ -68,11 +68,11 @@ class preamblecorr_bb(gr.basic_block):
         if (nbuffer > 0):
             if nbuffer > noutput:
                 for i in range(noutput):
-                    output_items[0][i] = self.out_buffer.pop(0);
+                    output_items[0][i] = self.out_buffer.pop(0);                    
                 return noutput;
             else:
                 for i in range(nbuffer):
-                    output_items[0][i] = self.out_buffer.pop(0);                
+                    output_items[0][i] = self.out_buffer.pop(0);                      
                 return nbuffer;
                        
         if (not self.synchronized):
@@ -99,27 +99,25 @@ class preamblecorr_bb(gr.basic_block):
                         #output_items[0][0] = 2;
                     return 0;
         else:                            
-            ncrubms_in = int(ninput/4)*4;
-            input_arr = list(input_items[0][0:ncrubms_in]);            
-            out_bytes = [];
-            if (self.produced < self.packet_len):
+            ncrubms_in = self.packet_len * 4;
+            if ncrubms_in > ninput:
+                return 0;            
+            input_arr = list(input_items[0][0:ncrubms_in];                                                    
+            out_bytes = [];            
                 while (self.produced < self.packet_len):                                                                            
                     output_byte = self.pack_four_bytes(input_arr);
                     for i in range(4):
                         input_arr.pop(0);                                
-                    self.out_buffer.append(output_byte);
-                    self.produced += 1;       
-                    if (len(input_arr) == 0):
-                        break;            
+                    output_items[0][self.produced] = output_byte;
+                    self.produced += 1;                           
                 self.consume_each(ncrubms_in);
-                return 0;            
-                
-            else:
+                prod = self.produced;
                 self.produced = 0;
                 self.synchronized = False;
                 print("Done", self.success_sync);
                 self.success_sync += 1;
-                return 0;        
+                return prod;            
+
                 
         
         
