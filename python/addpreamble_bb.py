@@ -114,7 +114,7 @@ class addpreamble_bb(gr.basic_block):
 				packet[j] = self.access_code[j];
 			for j in range(self.packet_len):
 				packet[j + self.preamble_len] = input_items[0][j];
-			self.consume_each(ninput);
+			self.consume_each(self.packet_len);
 			self.packets.append(packet);
 			
 		
