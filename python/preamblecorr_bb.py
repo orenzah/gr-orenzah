@@ -77,6 +77,10 @@ class preamblecorr_bb(gr.basic_block):
                     # that is we have a match, we are sync
                     # output now 1000 bytes using 1000*4 crumbs input
                     self.synchronized = True;
+                    for i in range(self.preamble_len * 4):
+                        # pop  preamble out
+                        self.crumbs_window.pop(0);
+                    self.consume_each(self.preamble_len * 4);    
                     return 0;
                 else:
                     return 0;
