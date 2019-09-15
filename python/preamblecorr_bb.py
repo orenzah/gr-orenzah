@@ -113,16 +113,16 @@ class preamblecorr_bb(gr.basic_block):
             i = j*4;
             shift = 6;
             self.access_code_crumbs[i] = (copy_acc[j] & (0x03 << shift))
-            self.access_code_crumbs[i] >> shift;
+            self.access_code_crumbs[i] = self.access_code_crumbs[i] >> shift;
             shift = 4;
             self.access_code_crumbs[i+1] = (copy_acc[j] & (0x03 << shift))
-            self.access_code_crumbs[i+1] >> shift;
+            self.access_code_crumbs[i+1] = self.access_code_crumbs[i+1] >> shift;
             shift = 2;
             self.access_code_crumbs[i+2] = (copy_acc[j] & (0x03 << shift))
-            self.access_code_crumbs[i+2] >> shift;
+            self.access_code_crumbs[i+2] = self.access_code_crumbs[i+2] >> shift;
             shift = 0;
             self.access_code_crumbs[i+3] = (copy_acc[j] & (0x03 << shift))
-            self.access_code_crumbs[i+3] >> shift;
+            self.access_code_crumbs[i+3] = self.access_code_crumbs[i+3] >> shift;
         return;
     def pack_four_bytes(self, input_items):       
         alignedByte = (
