@@ -92,7 +92,7 @@ class preamblecorr_bb(gr.basic_block):
                 output_byte = self.pack_four_bytes(input_arr);
                 self.consume_each(4);
                 #output_items[0][0] = output_byte;
-                produced_bytes[self.produced] =  = output_byte;
+                produced_bytes[self.produced] = output_byte;
                 self.produced += 1;
                 return 1;
             else:
