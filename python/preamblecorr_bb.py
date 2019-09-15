@@ -40,7 +40,6 @@ class preamblecorr_bb(gr.basic_block):
         self.crumbs_window = [];
         self.curr_window = [];        
         self.produced = 0;
-        self.produced_bytes = list(numpy.zeros(packet_len));
         if (len(access_code) !=  preamble_len):
             assert("Access code and Preamble Length doesn't match")
         gr.basic_block.__init__(self,
@@ -51,10 +50,10 @@ class preamblecorr_bb(gr.basic_block):
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
         if (self.synchronized):
-            #noutput_items = 1;
-            ninput_items_required[0] = 4;
+            noutput_items = self.packet_len;
+            ninput_items_required[0] = noutput_items*4;
         else:    
-            #noutput_items = 1;
+            noutput_items = 1;
             ninput_items_required[0] = noutput_items;
 
     def general_work(self, input_items, output_items):
@@ -73,17 +72,18 @@ class preamblecorr_bb(gr.basic_block):
                 # we have collected 16*4 crumbs items
                 # compare the access_code to the crumbs window
                 cnt = self.sliding_window();
+                for i in range(cnt):
+                    self.crumbs_window.pop(0);
                 if cnt == 0:
                     # that is we have a match, we are sync
-                    # output now packet_len bytes
-                    # using packet_len*4 crumbs input                    
+                    # output now preamble_len bytes
+                    # using preamble_len*4 crumbs input
+                    
                     self.synchronized = True;
-                    self.crumbs_window = [];    
-                    self.produced = 0;                                
+                    self.crumbs_window = [];                    
+                    return 0;
                 else:
-                    for i in range(cnt):
-                        self.crumbs_window.pop(0);
-                return 0;
+                    return 0;
         else:
             if (self.produced < self.packet_len):                
                 input_arr = input_items[0]
@@ -91,8 +91,7 @@ class preamblecorr_bb(gr.basic_block):
                     return 0;
                 output_byte = self.pack_four_bytes(input_arr);
                 self.consume_each(4);
-                #output_items[0][0] = output_byte;
-                self.produced_bytes[self.produced] = output_byte;
+                output_items[0][0] = output_byte;
                 self.produced += 1;
                 return 1;
             else:
@@ -100,8 +99,7 @@ class preamblecorr_bb(gr.basic_block):
                 self.synchronized = False;
                 print("Done", self.success_sync);
                 self.success_sync += 1;
-                output_items[0] = produced_bytes;
-                return len(produced_bytes);                                
+                return 0;                                
         #consume(0, len(input_items[0]))
         
         return len(output_items[0])
