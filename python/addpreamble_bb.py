@@ -63,7 +63,7 @@ class addpreamble_bb(gr.basic_block):
 		else:
 			if (self.preamble_rem > 0):
 				for i in range(self.preamble_rem, self.preamble_len):	
-					output_items[0][i] = 120;
+					output_items[0][i - self.preamble_rem] = 120;
 				self.preamble_rem = 0;				
 			else:
 				for i in range(self.preamble_len):				
