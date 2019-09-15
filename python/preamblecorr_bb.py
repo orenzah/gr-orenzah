@@ -50,8 +50,8 @@ class preamblecorr_bb(gr.basic_block):
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
         if (self.synchronized):
-            noutput_items = self.packet_len - self.produced;
-            ninput_items_required[0] = noutput_items*4;
+            noutput_items = 1;
+            ninput_items_required[0] = 4;
         else:    
             noutput_items = 1;
             ninput_items_required[0] = noutput_items;
@@ -72,19 +72,17 @@ class preamblecorr_bb(gr.basic_block):
                 # we have collected 16*4 crumbs items
                 # compare the access_code to the crumbs window
                 cnt = self.sliding_window();
-                for i in range(cnt):
-                    self.crumbs_window.pop(0);
                 if cnt == 0:
                     # that is we have a match, we are sync
                     # output now packet_len bytes
-                    # using packet_len*4 crumbs input
-                    
+                    # using packet_len*4 crumbs input                    
                     self.synchronized = True;
                     self.crumbs_window = [];    
-                    self.produced = 0;                
-                    return 0;
+                    self.produced = 0;                                
                 else:
-                    return 0;
+                    for i in range(cnt):
+                    self.crumbs_window.pop(0);
+                return 0;
         else:
             if (self.produced < self.packet_len):                
                 input_arr = input_items[0]
