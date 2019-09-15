@@ -62,14 +62,13 @@ class preamblecorr_bb(gr.basic_block):
         # notice, we consider four bytes as one
         
         noutput = len(output_items[0])
-        ninput = len(input_items[0])
-        print("noutput", noutput);
-        print("ninput", ninput);
+        ninput = len(input_items[0])        
         if (not self.synchronized):
             if (len(self.crumbs_window) < self.preamble_len * 4):            
                 self.crumbs_window.append(input_items[0][0]);
                 self.consume_each(1);
-                return 0;
+                output_items[0][0] = 0;                    
+                return 1;
             else:
                 # we have collected 16*4 crumbs items
                 # compare the access_code to the crumbs window
@@ -82,10 +81,12 @@ class preamblecorr_bb(gr.basic_block):
                     # using preamble_len*4 crumbs input
                     
                     self.synchronized = True;
-                    self.crumbs_window = [];                    
-                    return 0;
+                    self.crumbs_window = [];        
+                    output_items[0][0] = 0;                    
+                    return 1;
                 else:
-                    return 0;
+                    output_items[0][0] = 0;                    
+                    return 1;
         else:
             if (self.produced < self.packet_len):                
                 input_arr = input_items[0]
@@ -101,7 +102,7 @@ class preamblecorr_bb(gr.basic_block):
                 self.synchronized = False;
                 print("Done", self.success_sync);
                 self.success_sync += 1;
-                return 0;                                
+                return 0;
         #consume(0, len(input_items[0]))
         
         return len(output_items[0])
