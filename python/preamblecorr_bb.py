@@ -63,6 +63,8 @@ class preamblecorr_bb(gr.basic_block):
         
         noutput = len(output_items[0])
         ninput = len(input_items[0])
+        print("noutput", noutput);
+        print("ninput", ninput);
         if (not self.synchronized):
             if (len(self.crumbs_window) < self.preamble_len * 4):            
                 self.crumbs_window.append(input_items[0][0]);
