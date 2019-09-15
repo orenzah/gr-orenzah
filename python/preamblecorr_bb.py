@@ -102,16 +102,17 @@ class preamblecorr_bb(gr.basic_block):
             ncrubms_in = (ninput/4)*4;
             input_arr = input_items[0][::ncrubms_in];            
             out_bytes = [];
-            while (self.produced < self.packet_len):                                                                            
-                output_byte = self.pack_four_bytes(input_arr);
-                for i in range(4):
-                    input_arr.pop(0);                                
-                self.out_buffer.append(output_byte);
-                self.produced += 1;       
-                if (len(input_arr) == 0):
-                    break;            
-            self.consume_each(ncrubms_in);
-            return 0;            
+            if (self.produced < self.packet_len):
+                while (self.produced < self.packet_len):                                                                            
+                    output_byte = self.pack_four_bytes(input_arr);
+                    for i in range(4):
+                        input_arr.pop(0);                                
+                    self.out_buffer.append(output_byte);
+                    self.produced += 1;       
+                    if (len(input_arr) == 0):
+                        break;            
+                self.consume_each(ncrubms_in);
+                return 0;            
                 
             else:
                 self.produced = 0;
