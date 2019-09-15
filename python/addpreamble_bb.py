@@ -108,6 +108,7 @@ class addpreamble_bb(gr.basic_block):
 		
 		npackets = ninput / (self.packet_len);		
 		if (npackets <= 0):
+			print (npackets)
 			return 0;		
 		for i in range(npackets):			
 			for j in range(self.preamble_len):
