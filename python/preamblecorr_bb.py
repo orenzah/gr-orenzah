@@ -35,6 +35,7 @@ class preamblecorr_bb(gr.basic_block):
         self.access_code_crumbs = list(numpy.ones(preamble_len * 4));
         self.synchronized = False;
         self.unpack_accesscode();
+        self.success_sync = 0;
         print(self.access_code_crumbs);
         self.crumbs_window = [];
         self.curr_window = [];        
@@ -96,7 +97,8 @@ class preamblecorr_bb(gr.basic_block):
             else:
                 self.produced = 0;
                 self.synchronized = False;
-                print("Done");
+                print("Done", self.success_sync);
+                self.success_sync += 1;
                 return 0;                                
         #consume(0, len(input_items[0]))
         
