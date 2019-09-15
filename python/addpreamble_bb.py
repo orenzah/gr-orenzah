@@ -97,7 +97,7 @@ class addpreamble_bb(gr.basic_block):
     def general_work(self, input_items, output_items):					
 		noutput = len(output_items[0])
 		ninput = len(input_items[0])				
-		packet = np.zeros(self.packet_len + self.preamble);
+		packet = np.zeros(self.packet_len + self.preamble_len);
 		npackets = ninput / (self.packet_len + self.preamble_len);		
 		for i in range(npackets):			
 			for j in range(self.preamble_len):
@@ -107,7 +107,7 @@ class addpreamble_bb(gr.basic_block):
 			self.consume_each(ninput);
 			for j in range(len(packet)):
 				output_items[0][j] = packet[j];
-		return npakcets *( self.packet_len + self.preamble);
+		return npakcets *( self.packet_len + self.preamble_len);
 		
 							
 			
