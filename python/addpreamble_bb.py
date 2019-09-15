@@ -101,7 +101,7 @@ class addpreamble_bb(gr.basic_block):
 		packet_size = self.packet_len + self.preamble_len;			
 		packet = np.zeros(packet_size);
 		
-		npackets = ninput / (self.packet_len) - 1;		
+		npackets = ninput / (self.packet_len);		
 		if (npackets <= 0):
 			return 0;		
 		for i in range(npackets):			
