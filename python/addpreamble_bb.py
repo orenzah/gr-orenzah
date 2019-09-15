@@ -19,6 +19,7 @@
 # Boston, MA 02110-1301, USA.
 # 
 
+import numpy as np
 import numpy
 from gnuradio import gr
 
