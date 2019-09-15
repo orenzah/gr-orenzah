@@ -79,8 +79,7 @@ class preamblecorr_bb(gr.basic_block):
                     self.synchronized = True;
                     for i in range(self.preamble_len * 4):
                         # pop  preamble out
-                        self.crumbs_window.pop(0);
-                    self.consume_each(self.preamble_len * 4);    
+                        self.crumbs_window.pop(0);                    
                     return 0;
                 else:
                     return 0;
@@ -97,6 +96,7 @@ class preamblecorr_bb(gr.basic_block):
             else:
                 self.produced = 0;
                 self.synchronized = False;
+                print("Done");
                 return 0;                                
         #consume(0, len(input_items[0]))
         
