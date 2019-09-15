@@ -93,9 +93,7 @@ class preamblecorr_bb(gr.basic_block):
             else:
                 self.produced = 0;
                 self.synchronized = False;
-                return 0;
-                
-                
+                return 0;                                
         #consume(0, len(input_items[0]))
         
         return len(output_items[0])
@@ -112,13 +110,13 @@ class preamblecorr_bb(gr.basic_block):
     def unpack_accesscode(self):
         for i in range(self.preamble_len):
             self.access_code_crumbs.append(
-            (self.access_code[i] << 6) & (0xFF << 6));            
+            ((self.access_code[i] << 6) & (0xFF << 6)) >> 6);            
             self.access_code_crumbs.append(
-            (self.access_code[i] << 4) & (0xFF << 4));
+            ((self.access_code[i] << 4) & (0xFF << 4)) >> 4);            
             self.access_code_crumbs.append(
-            (self.access_code[i] << 2) & (0xFF << 2));
+            ((self.access_code[i] << 2) & (0xFF << 2)) >> 2);            
             self.access_code_crumbs.append(
-            (self.access_code[i] << 0) & (0xFF << 0));
+            ((self.access_code[i] << 0) & (0xFF << 0)) >> 0);            
         return;
     def pack_four_bytes(self, input_items):       
         alignedByte = (
