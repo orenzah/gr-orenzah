@@ -50,7 +50,7 @@ class preamblecorr_bb(gr.basic_block):
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
         if (self.synchronized):
-            noutput_items = 1000;
+            noutput_items = packet_len;
             ninput_items_required[0] = noutput_items*4;
         else:    
             noutput_items = 1;
@@ -76,11 +76,12 @@ class preamblecorr_bb(gr.basic_block):
                     self.crumbs_window.pop(0);
                 if cnt == 0:
                     # that is we have a match, we are sync
-                    # output now 1000 bytes using 1000*4 crumbs input
+                    # output now packet_len bytes
+                    # using packet_len*4 crumbs input
+                    
                     self.synchronized = True;
-                    for i in range(self.preamble_len * 4):
-                        # pop  preamble out
-                        self.crumbs_window.pop(0);                    
+                    self.crumbs_window = [];    
+                    self.produced = 0;                
                     return 0;
                 else:
                     return 0;
