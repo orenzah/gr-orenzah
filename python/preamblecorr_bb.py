@@ -32,7 +32,7 @@ class preamblecorr_bb(gr.basic_block):
         self.packet_len = packet_len;
         self.preamble_len = preamble_len;
         self.access_code = access_code;
-        self.access_code_crumbs = [];
+        self.access_code_crumbs = list(numpy.ones(preamble_len * 4));
         self.synchronized = False;
         self.unpack_accesscode();
         print(self.access_code_crumbs);
@@ -108,15 +108,21 @@ class preamblecorr_bb(gr.basic_block):
             cnt -= (self.crumbs_window[i] == self.access_code_crumbs[i]);
         return cnt;        
     def unpack_accesscode(self):
-        for i in range(self.preamble_len):
-            self.access_code_crumbs.append(
-            ((self.access_code[i] << 6) & (0xFF << 6)) >> 6);            
-            self.access_code_crumbs.append(
-            ((self.access_code[i] << 4) & (0xFF << 4)) >> 4);            
-            self.access_code_crumbs.append(
-            ((self.access_code[i] << 2) & (0xFF << 2)) >> 2);            
-            self.access_code_crumbs.append(
-            ((self.access_code[i] << 0) & (0xFF << 0)) >> 0);            
+        copy_acc = self.access_code[:];
+        for j in range(self.preamble_len):
+            i = j*4;
+            shift = 6;
+            self.access_code_crumbs[i] = (copy_acc[j] & (0x03 << shift))
+            self.access_code_crumbs[i] >> shift;
+            shift = 4;
+            self.access_code_crumbs[i+1] = (copy_acc[j] & (0x03 << shift))
+            self.access_code_crumbs[i+1] >> shift;
+            shift = 2;
+            self.access_code_crumbs[i+2] = (copy_acc[j] & (0x03 << shift))
+            self.access_code_crumbs[i+2] >> shift;
+            shift = 0;
+            self.access_code_crumbs[i+3] = (copy_acc[j] & (0x03 << shift))
+            self.access_code_crumbs[i+3] >> shift;
         return;
     def pack_four_bytes(self, input_items):       
         alignedByte = (
