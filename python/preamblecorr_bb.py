@@ -40,6 +40,7 @@ class preamblecorr_bb(gr.basic_block):
         self.crumbs_window = [];
         self.curr_window = [];        
         self.produced = 0;
+        self.produced_bytes = list(numpy.zeros(packet_len));;
         if (len(access_code) !=  preamble_len):
             assert("Access code and Preamble Length doesn't match")
         gr.basic_block.__init__(self,
@@ -90,7 +91,8 @@ class preamblecorr_bb(gr.basic_block):
                     return 0;
                 output_byte = self.pack_four_bytes(input_arr);
                 self.consume_each(4);
-                output_items[0][0] = output_byte;
+                #output_items[0][0] = output_byte;
+                produced_bytes[self.produced] =  = output_byte;
                 self.produced += 1;
                 return 1;
             else:
@@ -98,7 +100,8 @@ class preamblecorr_bb(gr.basic_block):
                 self.synchronized = False;
                 print("Done", self.success_sync);
                 self.success_sync += 1;
-                return 0;                                
+                output_items[0] = produced_bytes;
+                return len(produced_bytes);                                
         #consume(0, len(input_items[0]))
         
         return len(output_items[0])
