@@ -81,7 +81,7 @@ class preamblecorr_bb(gr.basic_block):
                     self.produced = 0;                                
                 else:
                     for i in range(cnt):
-                    self.crumbs_window.pop(0);
+                        self.crumbs_window.pop(0);
                 return 0;
         else:
             if (self.produced < self.packet_len):                
