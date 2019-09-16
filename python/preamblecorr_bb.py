@@ -122,8 +122,7 @@ class preamblecorr_bb(gr.basic_block):
                 return 0;
             else:
                 # this is a real letter
-                # we don't consume this time
-                print("first letter");                                
+                # we don't consume this time                                
                 self.preamble_end = True;
                 return 0;
                 
