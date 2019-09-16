@@ -115,7 +115,7 @@ class preamblecorr_bb(gr.basic_block):
             
             input_arr = list(input_items[0][0:4]);                                                    
             output_byte = self.pack_four_bytes(input_arr);
-            
+            print(output_byte);
             if output_byte > 0x7F: # not as ASCII letter
                 # this is still part of preamble
                 self.consume(0,4);
