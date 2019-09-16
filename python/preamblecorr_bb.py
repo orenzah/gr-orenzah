@@ -124,6 +124,9 @@ class preamblecorr_bb(gr.basic_block):
                 # this is a real letter
                 # we don't consume this time
                 print("first letter");
+                input_arr = list(input_items[0][0:4]);                                                    
+                output_byte = self.pack_four_bytes(input_arr);
+                print(output_byte);
                 self.preamble_end = True;
                 return 0;
                 
