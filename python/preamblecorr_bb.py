@@ -34,6 +34,7 @@ class preamblecorr_bb(gr.basic_block):
         self.access_code = access_code;
         self.access_code_crumbs = list(numpy.ones(preamble_len * 4));
         self.synchronized = False;
+        self.preamble_end = False;
         self.unpack_accesscode();
         self.success_sync = 0;
         print(self.access_code_crumbs);
@@ -90,14 +91,37 @@ class preamblecorr_bb(gr.basic_block):
                     # output now preamble_len bytes
                     # using preamble_len*4 crumbs input                    
                     self.synchronized = True;
+                    self.preamble_end = True;
                     self.crumbs_window = [];        
                     #output_items[0][0] = 2;                    
+                    return 0;
+                elif cnt <= self.preamble_len/2 and numpy.mod(cnt,4) == 0:
+                    # we found enough preambles
+                    # wait for preamble end
+                    self.synchronized = True;
+                    self.preamble_end = False;
                     return 0;
                 else:
                     for i in range(cnt):
                         self.crumbs_window.pop(0);                    
                         #output_items[0][0] = 2;
+                    self.synchronized = False;
+                    self.preamble_end = False;
                     return 0;
+        elif self.synchronized and not self.preamble_end:
+            # wait for preamble_end
+            input_arr = list(input_items[0][0:4]);                                                    
+            output_byte = self.pack_four_bytes(input_arr);
+            if output_byte > 0x7F: # not as ASCII letter
+                # this is still part of preamble
+                self.consume(0,4);
+                return 0;
+            else:
+                # this is a real letter
+                # we don't consume this time
+                self.preamble_end = True;
+                return 0;
+                
         else:                            
             ncrubms_in = self.packet_len * 4;
             if ncrubms_in > ninput:
@@ -114,6 +138,7 @@ class preamblecorr_bb(gr.basic_block):
             prod = self.produced;
             self.produced = 0;
             self.synchronized = False;
+            self.preamble_end = False;
             print("Done", self.success_sync);
             self.success_sync += 1;
             return prod;            
@@ -121,7 +146,17 @@ class preamblecorr_bb(gr.basic_block):
                 
         
         
-                
+    def sliding_window_sync(self):
+        #return the number of the unmatch indexex
+        #e.g. if access_code is [1,2,3,4] and curr_window [1,2,3,4]
+        #return 0
+        #e.g. if access_code is [1,1,3,1] and curr_window [1,2,3,4]
+        #return 2
+        cnt = self.preamble_len * 4;
+        for i in range(self.preamble_len * 4):
+            cnt -= (self.crumbs_window[i] == self.access_code_crumbs[i]);
+        return cnt; 
+                        
     def sliding_window(self):
         #return the number of the unmatch indexex
         #e.g. if access_code is [1,2,3,4] and curr_window [1,2,3,4]
@@ -131,7 +166,7 @@ class preamblecorr_bb(gr.basic_block):
         cnt = self.preamble_len * 4;
         for i in range(self.preamble_len * 4):
             cnt -= (self.crumbs_window[i] == self.access_code_crumbs[i]);
-        return cnt;        
+        return cnt;       
     def unpack_accesscode(self):
         copy_acc = self.access_code[:];
         for j in range(self.preamble_len):
