@@ -111,8 +111,11 @@ class preamblecorr_bb(gr.basic_block):
                     return 0;
         elif self.synchronized and not self.preamble_end:
             # wait for preamble_end
+            
+            
             input_arr = list(input_items[0][0:4]);                                                    
             output_byte = self.pack_four_bytes(input_arr);
+            print("still a preamble");
             if output_byte > 0x7F: # not as ASCII letter
                 # this is still part of preamble
                 self.consume(0,4);
