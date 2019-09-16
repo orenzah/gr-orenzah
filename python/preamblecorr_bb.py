@@ -21,6 +21,7 @@
 
 import numpy
 from gnuradio import gr
+import sys
 
 class preamblecorr_bb(gr.basic_block):
     """
@@ -141,8 +142,9 @@ class preamblecorr_bb(gr.basic_block):
                 for i in range(4):
                     input_arr.pop(0);                                
                 output_items[0][self.produced] = output_byte;
-                if (self.success_sync < 5):
-                    print chr(output_byte),;
+                if (self.success_sync < 5):                    
+                    sys.stdout.write(chr(output_byte));
+                    
                 self.produced += 1;                           
             self.consume_each(ncrubms_in);
             prod = self.produced;
