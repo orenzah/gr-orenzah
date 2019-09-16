@@ -103,7 +103,8 @@ class preamblecorr_bb(gr.basic_block):
                     self.preamble_end = False;
                     return 0;
                 else:
-                    for i in range(numpy.mod(cnt,4)):
+                    rem = numpy.mod(cnt,4);
+                    for i in range(rem):
                         self.crumbs_window.pop(0);                    
                         #output_items[0][0] = 2;
                     self.synchronized = False;
