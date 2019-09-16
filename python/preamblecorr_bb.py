@@ -152,27 +152,18 @@ class preamblecorr_bb(gr.basic_block):
                 
         
         
-    def sliding_window_sync(self):
-        #return the number of the unmatch indexex
-        #e.g. if access_code is [1,2,3,4] and curr_window [1,2,3,4]
-        #return 0
-        #e.g. if access_code is [1,1,3,1] and curr_window [1,2,3,4]
-        #return 2
-        cnt = self.preamble_len * 4;
-        for i in range(self.preamble_len * 4):
-            cnt -= (self.crumbs_window[i] == self.access_code_crumbs[i]);
-        return cnt; 
-                        
+
     def sliding_window(self):
         #return the number of the unmatch indexex
         #e.g. if access_code is [1,2,3,4] and curr_window [1,2,3,4]
         #return 0
         #e.g. if access_code is [1,1,3,1] and curr_window [1,2,3,4]
         #return 2
-        cnt = self.preamble_len * 4;
-        for i in range(self.preamble_len * 4):
+        cnt = len(self.access_code_crumbs) * 4;
+        for i in range(len(self.access_code_crumbs)):
             cnt -= (self.crumbs_window[i] == self.access_code_crumbs[i]);
-        return cnt;       
+        return cnt;      
+        
     def unpack_accesscode(self):
         copy_acc = self.access_code[:];
         for j in range(self.preamble_len):
