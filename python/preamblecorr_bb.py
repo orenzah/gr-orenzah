@@ -103,7 +103,7 @@ class preamblecorr_bb(gr.basic_block):
                     self.preamble_end = False;
                     return 0;
                 else:
-                    for i in range(cnt):
+                    for i in range(numpy.mod(cnt,4)):
                         self.crumbs_window.pop(0);                    
                         #output_items[0][0] = 2;
                     self.synchronized = False;
@@ -123,10 +123,7 @@ class preamblecorr_bb(gr.basic_block):
             else:
                 # this is a real letter
                 # we don't consume this time
-                print("first letter");
-                input_arr = list(input_items[0][0:4]);                                                    
-                output_byte = self.pack_four_bytes(input_arr);
-                print(output_byte);
+                print("first letter");                                
                 self.preamble_end = True;
                 return 0;
                 
