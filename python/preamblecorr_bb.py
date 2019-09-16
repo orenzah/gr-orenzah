@@ -115,7 +115,7 @@ class preamblecorr_bb(gr.basic_block):
             
             input_arr = list(input_items[0][0:4]);                                                    
             output_byte = self.pack_four_bytes(input_arr);
-            print("still a preamble");
+            
             if output_byte > 0x7F: # not as ASCII letter
                 # this is still part of preamble
                 self.consume(0,4);
@@ -123,6 +123,7 @@ class preamblecorr_bb(gr.basic_block):
             else:
                 # this is a real letter
                 # we don't consume this time
+                print("first letter");
                 self.preamble_end = True;
                 return 0;
                 
