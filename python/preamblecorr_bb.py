@@ -154,13 +154,13 @@ class preamblecorr_bb(gr.basic_block):
         
 
     def sliding_window(self):
-        #return the number of the unmatch indexex
+        #return the number of the unmatch indexes
         #e.g. if access_code is [1,2,3,4] and curr_window [1,2,3,4]
         #return 0
         #e.g. if access_code is [1,1,3,1] and curr_window [1,2,3,4]
         #return 2
         cnt = len(self.access_code_crumbs) * 4;
-        for i in range(len(self.access_code_crumbs)):
+        for i in range(len(self.crumbs_window)):
             cnt -= (self.crumbs_window[i] == self.access_code_crumbs[i]);
         return cnt;      
         
