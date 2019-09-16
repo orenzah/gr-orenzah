@@ -98,6 +98,7 @@ class preamblecorr_bb(gr.basic_block):
                 elif cnt <= self.preamble_len/2 and numpy.mod(cnt,4) == 0:
                     # we found enough preambles
                     # wait for preamble end
+                    print("synced, but not fulled");
                     self.synchronized = True;
                     self.preamble_end = False;
                     return 0;
