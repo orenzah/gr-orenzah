@@ -105,7 +105,7 @@ class preamblecorr_bb(gr.basic_block):
                 else:
                     rem = numpy.mod(cnt,4);
                     if rem == 0:
-                        rem = cnt;                    
+                        rem = 4;                    
                     for i in range(rem):
                         self.crumbs_window.pop(0);                    
                         #output_items[0][0] = 2;
