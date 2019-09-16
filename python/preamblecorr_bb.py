@@ -98,8 +98,7 @@ class preamblecorr_bb(gr.basic_block):
                     return 0;
                 elif (cnt <= self.preamble_len/4) and (numpy.mod(cnt,4) == 0):
                     # we found enough preambles
-                    # wait for preamble end
-                    print("synced, but not fulled");
+                    # wait for preamble end                    
                     self.synchronized = True;
                     self.preamble_end = False;
                     return 0;
@@ -116,8 +115,7 @@ class preamblecorr_bb(gr.basic_block):
         elif self.synchronized and not self.preamble_end:
             # wait for preamble_end                    
             input_arr = list(input_items[0][0:4]);                                                    
-            output_byte = self.pack_four_bytes(input_arr);
-            print(output_byte);
+            output_byte = self.pack_four_bytes(input_arr);            
             if output_byte > 0x7F: # not as ASCII letter
                 # this is still part of preamble
                 self.consume(0,4);
@@ -141,17 +139,13 @@ class preamblecorr_bb(gr.basic_block):
                 output_byte = self.pack_four_bytes(input_arr);
                 for i in range(4):
                     input_arr.pop(0);                                
-                output_items[0][self.produced] = output_byte;
-                if (self.success_sync < 5):                    
-                    sys.stdout.write(chr(output_byte));
-                    
+                output_items[0][self.produced] = output_byte;                                    
                 self.produced += 1;                           
             self.consume_each(ncrubms_in);
             prod = self.produced;
             self.produced = 0;
             self.synchronized = False;
-            self.preamble_end = False;
-            print("Done", self.success_sync);
+            self.preamble_end = False;            
             self.success_sync += 1;
             return prod;            
 
