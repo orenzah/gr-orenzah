@@ -34,7 +34,7 @@ class addpreamble_bb(gr.basic_block):
         self.remainder = 0;
         self.preamble_rem = 0;
         self.packets = []
-        self.first_init = True;
+        self.first_init = False;
         gr.basic_block.__init__(self,
             name="addpreamble_bb",
             in_sig=[numpy.int8],
