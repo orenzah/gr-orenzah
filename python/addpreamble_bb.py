@@ -34,6 +34,7 @@ class addpreamble_bb(gr.basic_block):
         self.remainder = 0;
         self.preamble_rem = 0;
         self.packets = []
+        self.first_init = True;
         gr.basic_block.__init__(self,
             name="addpreamble_bb",
             in_sig=[numpy.int8],
@@ -105,7 +106,13 @@ class addpreamble_bb(gr.basic_block):
 			return 0;
 		if (noutput < self.packet_len + self.preamble_len):
 			return 0;
-		
+		if self.first_init:
+			for i in range(self.preamble_len):
+				output_items[0][i] = self.access_code[i];				
+			for i in range(self.preamble_len):
+				output_items[0][i+self.preamble_len] = self.access_code[i];
+			self.first_init = False;
+			return 2*self.preamble_len;
 		for i in range(self.preamble_len):
 			output_items[0][i] = self.access_code[i];
 		for i in range(self.packet_len):
