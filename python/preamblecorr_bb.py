@@ -95,7 +95,7 @@ class preamblecorr_bb(gr.basic_block):
                     self.crumbs_window = [];        
                     #output_items[0][0] = 2;                    
                     return 0;
-                elif cnt <= self.preamble_len/4 and numpy.mod(cnt,4) == 0:
+                elif (cnt <= self.preamble_len/4) and (numpy.mod(cnt,4) == 0):
                     # we found enough preambles
                     # wait for preamble end
                     print("synced, but not fulled");
@@ -111,9 +111,7 @@ class preamblecorr_bb(gr.basic_block):
                     self.preamble_end = False;
                     return 0;
         elif self.synchronized and not self.preamble_end:
-            # wait for preamble_end
-            
-            
+            # wait for preamble_end                    
             input_arr = list(input_items[0][0:4]);                                                    
             output_byte = self.pack_four_bytes(input_arr);
             print(output_byte);
